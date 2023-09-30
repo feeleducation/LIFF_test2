@@ -1,5 +1,5 @@
 $('form').submit(function (event) {
-    const placeName = $('input[name="parent-name"]').val();
+    const placeName = $('input[name="place-name"]').val();
     const postalCode = $('input[name="postal-code"]').val();
     const address = $('input[name="address"]').val();
     if (placeName == "" && address == ""){
@@ -28,13 +28,13 @@ $('form').submit(function (event) {
 
     sendText += "〈希望の開催場所〉\n";
     if(placeName) sendText += placeName + "\n";
-    if(postalCode) sendText += postalCode + "\n";
+    if(postalCode) sendText += "〒" + postalCode + "\n";
     if(address) sendText += address + "\n";
 
     sendText += "〈参加予定者数〉\n" + $('input[name="number"]').val() + "\n";
 
     const program = [$('select[name="program1"]').val(), $('select[name="program2"]').val(), $('select[name="program3"]').val()].filter(Boolean);
-    if(date.length>0){
+    if(program.length>0){
         sendText += "〈ご希望の理科実験プログラム〉\n";
         for(let i=0; i<program.length; i++){
             sendText += "第" + (i+1) + "希望：" + program[i] + "\n";
@@ -44,9 +44,8 @@ $('form').submit(function (event) {
     const remarks = $('textarea[name="remarks"]').val();
     if(remarks) sendText += "〈備考〉\n" + remarks;
 
-    window.confirm(sendText);
-    
-    // sendMessage(sendText);
+    // window.confirm(sendText);
+    sendMessage(sendText);
     return false;
 });
 
@@ -72,12 +71,10 @@ const key = params.get('key');
 
 
 $(document).ready(function () {
-    /*
     const liffId = "2000893992-BllmbvgN"; //LIFF IDを入力。LINE DevelopersのLIFF画面より確認可能
     console.log(`init liff, ID : ${liffId}`);
     initializeLiff(liffId);
     getUserId(liffId);
-    */
 
     // プログラムのリストを読み込んで選択肢に入れる
     let opt = document.createElement("option");
